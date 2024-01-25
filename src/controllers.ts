@@ -6,15 +6,25 @@ const client = new PrismaClient();
 interface userI {
   name: string,
   email: string,
-  birth: Date,
+  birth: string,
 }
 
 const createUser = async (body: userI, res: Response) => {
   const newUser = await client.user.create({
-    data: body
+    data: {
+      name: body.name,
+      email: body.email,
+      birth: new Date(body.birth)
+    }
   })
 
   res.status(201).send(newUser)
+}
+
+const findAllUsers = async (res: Response) => {
+  const users = await client.user.findMany()
+
+  res.status(200).send(users)
 }
 
 const findUser = async (id: string, res: Response) => {
@@ -36,7 +46,11 @@ const updateUser = async (id: string, user: userI, res: Response) => {
     where: {
       id
     },
-    data: user
+    data: {
+      name: user.name,
+      email: user.email,
+      birth: new Date(user.birth)
+    }
   })
 
   res.status(200).send(updatedUser);
@@ -54,6 +68,7 @@ const deleteUser = async (id: string, res: Response) => {
 
 export {
   createUser,
+  findAllUsers,
   findUser,
   updateUser,
   deleteUser
