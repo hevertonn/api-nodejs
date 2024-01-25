@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { Request, Response } from "express";
+import { Response } from "express";
 
 const client = new PrismaClient();
 
@@ -52,7 +52,7 @@ const deleteUser = async (id: string, res: Response) => {
   res.status(200).send(result);
 }
 
-export = {
+export {
   createUser,
   findUser,
   updateUser,
