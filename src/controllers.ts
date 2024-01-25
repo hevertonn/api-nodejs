@@ -14,7 +14,7 @@ const createUser = async (body: userI, res: Response) => {
     data: body
   })
 
-  res.status(200).send(newUser)
+  res.status(201).send(newUser)
 }
 
 const findUser = async (id: string, res: Response) => {
@@ -24,7 +24,11 @@ const findUser = async (id: string, res: Response) => {
     }
   })
 
-  res.status(200).send(user)
+  if (user) {
+    res.status(200).send(user)
+  } else {
+    res.status(404).send()
+  }
 }
 
 const updateUser = async (id: string, user: userI, res: Response) => {
@@ -35,7 +39,7 @@ const updateUser = async (id: string, user: userI, res: Response) => {
     data: user
   })
 
-  res.status(201).send(updatedUser)
+  res.status(200).send(updatedUser);
 }
 
 const deleteUser = async (id: string, res: Response) => {
