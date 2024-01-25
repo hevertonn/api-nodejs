@@ -4,9 +4,9 @@ import { Response } from "express";
 const client = new PrismaClient();
 
 interface userI {
-  name: string,
-  email: string,
-  birth: string,
+  name: string;
+  email: string;
+  birth: string;
 }
 
 const createUser = async (body: userI, res: Response) => {
@@ -14,62 +14,56 @@ const createUser = async (body: userI, res: Response) => {
     data: {
       name: body.name,
       email: body.email,
-      birth: new Date(body.birth)
-    }
-  })
+      birth: new Date(body.birth),
+    },
+  });
 
-  res.status(201).send(newUser)
-}
+  res.status(201).send(newUser);
+};
 
 const findAllUsers = async (res: Response) => {
-  const users = await client.user.findMany()
+  const users = await client.user.findMany();
 
-  res.status(200).send(users)
-}
+  res.status(200).send(users);
+};
 
 const findUser = async (id: string, res: Response) => {
   const user = await client.user.findUnique({
     where: {
-      id
-    }
-  })
+      id,
+    },
+  });
 
   if (user) {
-    res.status(200).send(user)
+    res.status(200).send(user);
   } else {
-    res.status(404).send()
+    res.status(404).send();
   }
-}
+};
 
 const updateUser = async (id: string, user: userI, res: Response) => {
   const updatedUser = await client.user.update({
     where: {
-      id
+      id,
     },
     data: {
       name: user.name,
       email: user.email,
-      birth: new Date(user.birth)
-    }
-  })
+      birth: new Date(user.birth),
+    },
+  });
 
   res.status(200).send(updatedUser);
-}
+};
 
 const deleteUser = async (id: string, res: Response) => {
   const result = await client.user.delete({
     where: {
-      id
-    }
-  })
+      id,
+    },
+  });
 
   res.status(200).send(result);
-}
+};
 
-export {
-  createUser,
-  findAllUsers,
-  findUser,
-  updateUser,
-  deleteUser
-}
+export { createUser, findAllUsers, findUser, updateUser, deleteUser };
